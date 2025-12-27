@@ -1,98 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Meu Jogo de Simulação</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
+<meta charset="UTF-8">
+<title>Meu Jogo de Simulação</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
 
-    h1, h2 {
-      text-align: center;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-    }
+  h1, h2 {
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+  }
 
-    .menu {
-      display: grid;
-      gap: 12px;
-      margin-top: 30px;
-      background: rgba(0,0,0,0.5);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
+  .menu {
+    display: grid;
+    gap: 12px;
+    margin-top: 30px;
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
 
-    button {
-      padding: 15px 20px;
-      font-size: 16px;
-      border-radius: 15px;
-      border: none;
-      background: linear-gradient(45deg, #ff2f92, #ff65b2);
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
+  button {
+    padding: 15px 20px;
+    font-size: 16px;
+    border-radius: 15px;
+    border: none;
+    background: linear-gradient(45deg, #ff2f92, #ff65b2);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+  }
 
-    button:hover {
-      transform: scale(1.05);
-    }
+  button:hover {
+    transform: scale(1.05);
+  }
 
-    .status, .charts, .redes {
-      margin-top: 40px;
-      text-align: center;
-      background: rgba(0,0,0,0.5);
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-      display: none;
-    }
+  /* 🔹 Blocos/abas */
+  .aba {
+    margin-top: 40px;
+    text-align: center;
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: none;
+  }
 
-    /* 🔹 Barras de status */
-    .barra-container {
-      background: #222;
-      border-radius: 10px;
-      width: 80%;
-      margin: 10px auto;
-      height: 20px;
-      overflow: hidden;
-    }
+  /* 🔹 Barras de status */
+  .barra-container {
+    background: #222;
+    border-radius: 10px;
+    width: 80%;
+    margin: 10px auto;
+    height: 20px;
+    overflow: hidden;
+  }
 
-    .barra {
-      height: 100%;
-      width: 0%;
-      border-radius: 10px;
-      text-align: right;
-      padding-right: 5px;
-      color: white;
-      line-height: 20px;
-      box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
-    }
+  .barra {
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    text-align: right;
+    padding-right: 5px;
+    color: white;
+    line-height: 20px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+  }
 
-    .felicidade { background: linear-gradient(to right, #ffec00, #ffcc00); }
-    .fama       { background: linear-gradient(to right, #ff2f92, #ff65b2); }
-    .saude      { background: linear-gradient(to right, #00ccff, #66e0ff); }
-    .respeito   { background: linear-gradient(to right, #00ff88, #33ffaa); }
+  .felicidade { background: linear-gradient(to right, #ffec00, #ffcc00); }
+  .fama       { background: linear-gradient(to right, #ff2f92, #ff65b2); }
+  .saude      { background: linear-gradient(to right, #00ccff, #66e0ff); }
+  .respeito   { background: linear-gradient(to right, #00ff88, #33ffaa); }
 
-    /* 🔹 Lista interna */
-    ul {
-      text-align: left;
-      max-width: 300px;
-      margin: 10px auto;
-      padding-left: 20px;
-    }
-
-    li {
-      margin: 5px 0;
-    }
-  </style>
+  ul {
+    text-align: left;
+    max-width: 300px;
+    margin: 10px auto;
+    padding-left: 20px;
+  }
+</style>
 </head>
 <body>
 
@@ -102,10 +98,12 @@
   <button onclick="mostrar('status')">👤 Vida Pessoal</button>
   <button onclick="mostrar('redes')">📱 Redes Sociais</button>
   <button onclick="mostrar('charts')">📊 Charts</button>
+  <button onclick="mostrar('musical')">🎵 Carreira Musical</button>
+  <button onclick="mostrar('atuacao')">🎬 Atuação</button>
 </div>
 
-<!-- 🔹 Status do personagem -->
-<div class="status">
+<!-- 🔹 Abas -->
+<div class="aba" id="status">
   <h2>Vida do Personagem</h2>
   <p>Idade: <span id="idade">0</span></p>
 
@@ -125,8 +123,7 @@
   <button onclick="envelhecer()">Avançar Ano</button>
 </div>
 
-<!-- 🔹 Redes Sociais -->
-<div class="redes">
+<div class="aba" id="redes">
   <h2>Redes Sociais</h2>
   <ul>
     <li>Twitter: Seguindo 10 pessoas</li>
@@ -137,8 +134,7 @@
   </ul>
 </div>
 
-<!-- 🔹 Charts -->
-<div class="charts">
+<div class="aba" id="charts">
   <h2>Charts</h2>
   <ul>
     <li>Top 100 Álbuns</li>
@@ -146,6 +142,16 @@
     <li>Top 100 Artistas</li>
     <li>Top 100 Global</li>
   </ul>
+</div>
+
+<div class="aba" id="musical">
+  <h2>Carreira Musical</h2>
+  <p>Em breve você poderá criar músicas e lançar álbuns!</p>
+</div>
+
+<div class="aba" id="atuacao">
+  <h2>Atuação</h2>
+  <p>Em breve você poderá participar de filmes e séries!</p>
 </div>
 
 <script>
@@ -172,14 +178,11 @@ function atualizarBarras() {
 
 function envelhecer() {
   idade++;
-
-  // mudanças aleatórias simples
   felicidade += Math.floor(Math.random() * 5 - 2);
   saude += Math.floor(Math.random() * 3 - 1);
   fama += Math.floor(Math.random() * 4);
   respeito += Math.floor(Math.random() * 3);
 
-  // limites de 0 a 100
   felicidade = Math.max(0, Math.min(100, felicidade));
   saude = Math.max(0, Math.min(100, saude));
   fama = Math.max(0, Math.min(100, fama));
@@ -192,10 +195,10 @@ function envelhecer() {
 atualizarBarras();
 
 // Função para mostrar/ocultar abas
-function mostrar(aba) {
-  const abas = ['status', 'redes', 'charts'];
-  abas.forEach(id => {
-    document.querySelector('.' + id).style.display = (id === aba) ? 'block' : 'none';
+function mostrar(abaId) {
+  const abas = document.querySelectorAll('.aba');
+  abas.forEach(aba => {
+    aba.style.display = (aba.id === abaId) ? 'block' : 'none';
   });
 }
 </script>
