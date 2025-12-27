@@ -45,7 +45,6 @@
     transform: scale(1.05);
   }
 
-  /* 🔹 Blocos/abas */
   .aba {
     margin-top: 40px;
     text-align: center;
@@ -56,7 +55,6 @@
     display: none;
   }
 
-  /* 🔹 Barras de status */
   .barra-container {
     background: #222;
     border-radius: 10px;
@@ -82,12 +80,21 @@
   .saude      { background: linear-gradient(to right, #00ccff, #66e0ff); }
   .respeito   { background: linear-gradient(to right, #00ff88, #33ffaa); }
 
-  ul {
-    text-align: left;
-    max-width: 300px;
+  /* 🔹 Feed estilo app */
+  .post {
+    background: #111;
+    padding: 10px;
     margin: 10px auto;
-    padding-left: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    text-align: left;
   }
+
+  .post p { margin: 5px 0; }
+  .post .acoes { display: flex; gap: 10px; margin-top: 5px; }
+  .post .acoes button { background: #ff2f92; padding: 5px 10px; border-radius: 5px; font-size: 14px; }
+
+  textarea { width: 90%; height: 50px; margin: 10px auto; display: block; border-radius: 10px; padding: 5px; }
 </style>
 </head>
 <body>
@@ -125,13 +132,15 @@
 
 <div class="aba" id="redes">
   <h2>Redes Sociais</h2>
-  <ul>
-    <li>Twitter: Seguindo 10 pessoas</li>
-    <li>Instagram: 200 seguidores</li>
-    <li>Spotify: 0 músicas lançadas</li>
-    <li>Wikipedia: Página do personagem</li>
-    <li>App de Namoro: Disponível aos 18 anos</li>
-  </ul>
+  <h3>Twitter</h3>
+  <textarea id="tweetInput" placeholder="Escreva seu tweet..."></textarea>
+  <button onclick="postarTweet()">Publicar</button>
+  <div id="feedTwitter"></div>
+
+  <h3>Instagram</h3>
+  <textarea id="instaInput" placeholder="Escreva sua postagem..."></textarea>
+  <button onclick="postarInsta()">Postar</button>
+  <div id="feedInsta"></div>
 </div>
 
 <div class="aba" id="charts">
@@ -161,21 +170,20 @@ let fama = 0;
 let saude = 50;
 let respeito = 10;
 
+// Atualiza barras
 function atualizarBarras() {
   document.getElementById("idade").innerText = idade;
   document.getElementById("felicidade").style.width = felicidade + "%";
   document.getElementById("felicidade").innerText = felicidade + "%";
-
   document.getElementById("fama").style.width = fama + "%";
   document.getElementById("fama").innerText = fama + "%";
-
   document.getElementById("saude").style.width = saude + "%";
   document.getElementById("saude").innerText = saude + "%";
-
   document.getElementById("respeito").style.width = respeito + "%";
   document.getElementById("respeito").innerText = respeito + "%";
 }
 
+// Avançar ano
 function envelhecer() {
   idade++;
   felicidade += Math.floor(Math.random() * 5 - 2);
@@ -194,12 +202,59 @@ function envelhecer() {
 // Inicializa barras
 atualizarBarras();
 
-// Função para mostrar/ocultar abas
+// Mostrar/ocultar abas
 function mostrar(abaId) {
   const abas = document.querySelectorAll('.aba');
   abas.forEach(aba => {
     aba.style.display = (aba.id === abaId) ? 'block' : 'none';
   });
+}
+
+// Funções Twitter/Instagram
+function postarTweet() {
+  const input = document.getElementById("tweetInput");
+  const feed = document.getElementById("feedTwitter");
+  if(input.value.trim() === "") return;
+  const post = document.createElement("div");
+  post.className = "post";
+  post.innerHTML = `<p>${input.value}</p>
+    <div class="acoes">
+      <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
+      <button onclick="comentar(this)">Comentar</button>
+    </div>`;
+  feed.prepend(post);
+  input.value = "";
+}
+
+function postarInsta() {
+  const input = document.getElementById("instaInput");
+  const feed = document.getElementById("feedInsta");
+  if(input.value.trim() === "") return;
+  const post = document.createElement("div");
+  post.className = "post";
+  post.innerHTML = `<p>${input.value}</p>
+    <div class="acoes">
+      <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
+      <button onclick="comentar(this)">Comentar</button>
+    </div>`;
+  feed.prepend(post);
+  input.value = "";
+}
+
+// Curtir/Comentar
+function curtir(btn) {
+  const span = btn.nextElementSibling;
+  let count = parseInt(span.innerText);
+  count++;
+  span.innerText = count;
+}
+
+function comentar(btn) {
+  const comentario = prompt("Escreva seu comentário:");
+  if(!comentario) return;
+  const p = document.createElement("p");
+  p.textContent = "Comentário: " + comentario;
+  btn.parentElement.parentElement.appendChild(p);
 }
 </script>
 
