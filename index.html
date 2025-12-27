@@ -6,8 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   body {
-    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-    background-size: cover;
+    background: #0f0f14;
     color: white;
     font-family: Arial, sans-serif;
     margin: 0;
@@ -16,43 +15,28 @@
 
   h1, h2 {
     text-align: center;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
   }
 
   .menu {
     display: grid;
     gap: 12px;
-    margin-top: 30px;
-    background: rgba(0,0,0,0.5);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    margin-top: 20px;
   }
 
   button {
     padding: 15px 20px;
     font-size: 16px;
-    border-radius: 15px;
+    border-radius: 10px;
     border: none;
-    background: linear-gradient(45deg, #ff2f92, #ff65b2);
+    background: #ff2f92;
     color: white;
     cursor: pointer;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-    transition: transform 0.2s;
-  }
-
-  button:hover {
-    transform: scale(1.05);
   }
 
   .aba {
-    margin-top: 40px;
-    text-align: center;
-    background: rgba(0,0,0,0.5);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     display: none;
+    margin-top: 20px;
+    text-align: center;
   }
 
   .barra-container {
@@ -72,15 +56,13 @@
     padding-right: 5px;
     color: white;
     line-height: 20px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
   }
 
-  .felicidade { background: linear-gradient(to right, #ffec00, #ffcc00); }
-  .fama       { background: linear-gradient(to right, #ff2f92, #ff65b2); }
-  .saude      { background: linear-gradient(to right, #00ccff, #66e0ff); }
-  .respeito   { background: linear-gradient(to right, #00ff88, #33ffaa); }
+  .felicidade { background: #ffcc00; }
+  .fama       { background: #ff2f92; }
+  .saude      { background: #00ccff; }
+  .respeito   { background: #00ff88; }
 
-  /* 🔹 Feed estilo app */
   .post {
     background: #111;
     padding: 10px;
@@ -90,11 +72,27 @@
     text-align: left;
   }
 
-  .post p { margin: 5px 0; }
-  .post .acoes { display: flex; gap: 10px; margin-top: 5px; }
-  .post .acoes button { background: #ff2f92; padding: 5px 10px; border-radius: 5px; font-size: 14px; }
+  .acoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+  }
 
-  textarea { width: 90%; height: 50px; margin: 10px auto; display: block; border-radius: 10px; padding: 5px; }
+  .acoes button {
+    background: #ff2f92;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  textarea {
+    width: 90%;
+    height: 50px;
+    margin: 10px auto;
+    display: block;
+    border-radius: 10px;
+    padding: 5px;
+  }
 </style>
 </head>
 <body>
@@ -109,7 +107,7 @@
   <button onclick="mostrar('atuacao')">🎬 Atuação</button>
 </div>
 
-<!-- 🔹 Abas -->
+<!-- Abas -->
 <div class="aba" id="status">
   <h2>Vida do Personagem</h2>
   <p>Idade: <span id="idade">0</span></p>
@@ -170,7 +168,6 @@ let fama = 0;
 let saude = 50;
 let respeito = 10;
 
-// Atualiza barras
 function atualizarBarras() {
   document.getElementById("idade").innerText = idade;
   document.getElementById("felicidade").style.width = felicidade + "%";
@@ -183,38 +180,27 @@ function atualizarBarras() {
   document.getElementById("respeito").innerText = respeito + "%";
 }
 
-// Avançar ano
 function envelhecer() {
   idade++;
-  felicidade += Math.floor(Math.random() * 5 - 2);
-  saude += Math.floor(Math.random() * 3 - 1);
-  fama += Math.floor(Math.random() * 4);
-  respeito += Math.floor(Math.random() * 3);
-
-  felicidade = Math.max(0, Math.min(100, felicidade));
-  saude = Math.max(0, Math.min(100, saude));
-  fama = Math.max(0, Math.min(100, fama));
-  respeito = Math.max(0, Math.min(100, respeito));
-
+  felicidade = Math.min(100, Math.max(0, felicidade + Math.floor(Math.random()*5-2)));
+  saude = Math.min(100, Math.max(0, saude + Math.floor(Math.random()*3-1)));
+  fama = Math.min(100, Math.max(0, fama + Math.floor(Math.random()*4)));
+  respeito = Math.min(100, Math.max(0, respeito + Math.floor(Math.random()*3)));
   atualizarBarras();
 }
 
-// Inicializa barras
 atualizarBarras();
 
-// Mostrar/ocultar abas
 function mostrar(abaId) {
-  const abas = document.querySelectorAll('.aba');
-  abas.forEach(aba => {
-    aba.style.display = (aba.id === abaId) ? 'block' : 'none';
-  });
+  document.querySelectorAll('.aba').forEach(aba => aba.style.display = 'none');
+  document.getElementById(abaId).style.display = 'block';
 }
 
-// Funções Twitter/Instagram
+// Twitter/Instagram
 function postarTweet() {
   const input = document.getElementById("tweetInput");
   const feed = document.getElementById("feedTwitter");
-  if(input.value.trim() === "") return;
+  if(!input.value.trim()) return;
   const post = document.createElement("div");
   post.className = "post";
   post.innerHTML = `<p>${input.value}</p>
@@ -229,7 +215,7 @@ function postarTweet() {
 function postarInsta() {
   const input = document.getElementById("instaInput");
   const feed = document.getElementById("feedInsta");
-  if(input.value.trim() === "") return;
+  if(!input.value.trim()) return;
   const post = document.createElement("div");
   post.className = "post";
   post.innerHTML = `<p>${input.value}</p>
@@ -241,12 +227,10 @@ function postarInsta() {
   input.value = "";
 }
 
-// Curtir/Comentar
 function curtir(btn) {
   const span = btn.nextElementSibling;
   let count = parseInt(span.innerText);
-  count++;
-  span.innerText = count;
+  span.innerText = count+1;
 }
 
 function comentar(btn) {
