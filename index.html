@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -14,7 +13,7 @@
     padding: 20px;
   }
 
-  h1, h2 {
+  h1, h2, h3 {
     text-align: center;
   }
 
@@ -74,10 +73,18 @@
     word-wrap: break-word;
   }
 
-  .post img {
-    max-width: 100%;
-    border-radius: 10px;
-    margin-top: 5px;
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+
+  .avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #555;
   }
 
   .acoes {
@@ -112,6 +119,16 @@
     overflow-y: auto;
     margin-top: 10px;
   }
+
+  .comentario {
+    margin-left: 40px;
+    font-size: 14px;
+    color: #ccc;
+  }
+
+  .hashtag {
+    color: #00ccff;
+  }
 </style>
 </head>
 <body>
@@ -126,7 +143,6 @@
   <button onclick="mostrar('atuacao')">🎬 Atuação</button>
 </div>
 
-<!-- Abas -->
 <div class="aba" id="status">
   <h2>Vida do Personagem</h2>
   <p>Idade: <span id="idade">0</span></p>
@@ -219,33 +235,54 @@ function mostrar(abaId) {
 }
 
 // Funções de redes sociais
-function postarTweet() {
-  const input = document.getElementById("tweetInput");
-  const imgInput = document.getElementById("tweetImg");
-  const feed = document.getElementById("feedTwitter");
-  if(!input.value.trim() && imgInput.files.length === 0) return;
+const perfisSimulados = [
+  {nome: "AnaLima", avatar: "#f54242"},
+  {nome: "LeoRibeiro", avatar: "#42f5b3"},
+  {nome: "CarlosX", avatar: "#4287f5"},
+  {nome: "Mari_S", avatar: "#f5e642"}
+];
 
+function criarPost(feed, texto, file) {
   const post = document.createElement("div");
   post.className = "post";
+
+  const perfil = perfisSimulados[Math.floor(Math.random()*perfisSimulados.length)];
+
   let imgHTML = "";
-  if(imgInput.files[0]){
+  if(file){
     const reader = new FileReader();
     reader.onload = function(e){
       imgHTML = `<img src="${e.target.result}">`;
-      post.innerHTML = `<p>${input.value}</p>${imgHTML}
-        <div class="acoes">
-          <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
-          <button onclick="comentar(this)">Comentar</button>
-        </div>`;
+      atualizarPost(post, texto, perfil, imgHTML);
     };
-    reader.readAsDataURL(imgInput.files[0]);
+    reader.readAsDataURL(file);
+  } else {
+    atualizarPost(post, texto, perfil, imgHTML);
   }
-  post.innerHTML = `<p>${input.value}</p>${imgHTML}
+
+  feed.prepend(post);
+}
+
+function atualizarPost(post, texto, perfil, imgHTML){
+  post.innerHTML = `
+    <div class="post-header">
+      <div class="avatar" style="background:${perfil.avatar}"></div>
+      <strong>${perfil.nome}</strong>
+    </div>
+    <p>${texto.replace(/#(\w+)/g, '<span class="hashtag">#$1</span>')}</p>
+    ${imgHTML}
     <div class="acoes">
       <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
       <button onclick="comentar(this)">Comentar</button>
-    </div>`;
-  feed.prepend(post);
+    </div>
+  `;
+}
+
+function postarTweet() {
+  const input = document.getElementById("tweetInput");
+  const imgInput = document.getElementById("tweetImg");
+  if(!input.value.trim() && imgInput.files.length === 0) return;
+  criarPost(document.getElementById("feedTwitter"), input.value, imgInput.files[0]);
   input.value = "";
   imgInput.value = "";
 }
@@ -253,35 +290,12 @@ function postarTweet() {
 function postarInsta() {
   const input = document.getElementById("instaInput");
   const imgInput = document.getElementById("instaImg");
-  const feed = document.getElementById("feedInsta");
   if(!input.value.trim() && imgInput.files.length === 0) return;
-
-  const post = document.createElement("div");
-  post.className = "post";
-  let imgHTML = "";
-  if(imgInput.files[0]){
-    const reader = new FileReader();
-    reader.onload = function(e){
-      imgHTML = `<img src="${e.target.result}">`;
-      post.innerHTML = `<p>${input.value}</p>${imgHTML}
-        <div class="acoes">
-          <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
-          <button onclick="comentar(this)">Comentar</button>
-        </div>`;
-    };
-    reader.readAsDataURL(imgInput.files[0]);
-  }
-  post.innerHTML = `<p>${input.value}</p>${imgHTML}
-    <div class="acoes">
-      <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
-      <button onclick="comentar(this)">Comentar</button>
-    </div>`;
-  feed.prepend(post);
+  criarPost(document.getElementById("feedInsta"), input.value, imgInput.files[0]);
   input.value = "";
   imgInput.value = "";
 }
 
-// Curtidas e comentários
 function curtir(btn) {
   const span = btn.nextElementSibling;
   let count = parseInt(span.innerText);
@@ -292,10 +306,10 @@ function comentar(btn) {
   const comentario = prompt("Escreva seu comentário:");
   if(!comentario) return;
   const p = document.createElement("p");
-  p.textContent = "Comentário: " + comentario;
+  p.className = "comentario";
+  p.textContent = comentario;
   btn.parentElement.parentElement.appendChild(p);
 }
 </script>
-
 </body>
 </html>
