@@ -1,3 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Meu Jogo de Simulação</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .menu {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .menu button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background: #ff2f92;
+      color: white;
+      cursor: pointer;
+    }
+    .aba {
+      display: none;
+      background: rgba(0,0,0,0.7);
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+    }
+    .status {
+      text-align: center;
+    }
+    .barra-container {
+      background: #222;
+      border-radius: 10px;
+      width: 80%;
+      margin: 10px auto;
+      height: 20px;
+      overflow: hidden;
+    }
+    .barra {
+      height: 100%;
+      width: 0%;
+      border-radius: 10px;
+      text-align: right;
+      padding-right: 5px;
+      color: white;
+      line-height: 20px;
+    }
+    .felicidade { background: #ffcc00; }
+    .fama       { background: #ff2f92; }
+    .saude      { background: #00ccff; }
+    .respeito   { background: #00ff88; }
+
+    /* Redes sociais */
+    .feed { max-height: 300px; overflow-y: auto; margin-top: 10px; }
+    .post { background: #333; padding: 10px; margin-bottom: 10px; border-radius: 8px; }
+    .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+    .avatar { width: 30px; height: 30px; border-radius: 50%; display: inline-block; }
+    .acoes button { margin-right: 5px; }
+    .comentario { font-size: 14px; margin-left: 20px; color: #ddd; }
+    input, file { margin-top: 5px; }
+  </style>
+</head>
+<body>
+
+<h1>🎮 Meu Jogo de Simulação</h1>
+
+<div class="menu">
+  <button onclick="mostrar('status')">👤 Vida Pessoal</button>
+  <button onclick="mostrar('redes')">📱 Redes Sociais</button>
+  <button onclick="mostrar('charts')">📊 Charts</button>
+  <button onclick="mostrar('musical')">🎵 Carreira Musical</button>
+  <button onclick="mostrar('atuacao')">🎬 Atuação</button>
+</div>
+
+<!-- Vida Pessoal -->
+<div class="aba" id="status">
+  <div class="status">
+    <h2>Vida do Personagem</h2>
+    <p>Idade: <span id="idade">0</span></p>
+    <div class="barra-container">Felicidade: <div class="barra felicidade" id="felicidade">50%</div></div>
+    <div class="barra-container">Fama: <div class="barra fama" id="fama">0%</div></div>
+    <div class="barra-container">Saúde: <div class="barra saude" id="saude">50%</div></div>
+    <div class="barra-container">Respeito: <div class="barra respeito" id="respeito">10%</div></div>
+    <button onclick="envelhecer()">Avançar Ano</button>
+  </div>
+</div>
+
+<!-- Redes Sociais -->
+<div class="aba" id="redes">
+  <h2>📱 Redes Sociais</h2>
+  <h3>Twitter</h3>
+  <input type="text" id="tweetInput" placeholder="Escreva um tweet">
+  <input type="file" id="tweetImg">
+  <button onclick="postarTweet()">Postar</button>
+  <div class="feed" id="feedTwitter"></div>
+
+  <h3>Instagram</h3>
+  <input type="text" id="instaInput" placeholder="Escreva uma legenda">
+  <input type="file" id="instaImg">
+  <button onclick="postarInsta()">Postar</button>
+  <div class="feed" id="feedInsta"></div>
+</div>
+
+<!-- Charts -->
+<div class="aba" id="charts">
+  <h2>📊 Charts</h2>
+  <p>Ainda em desenvolvimento...</p>
+</div>
+
+<!-- Carreira Musical -->
+<div class="aba" id="musical">
+  <h2>🎵 Carreira Musical</h2>
+  <p>Ainda em desenvolvimento...</p>
+</div>
+
+<!-- Atuação -->
+<div class="aba" id="atuacao">
+  <h2>🎬 Atuação</h2>
+  <p>Ainda em desenvolvimento...</p>
+</div>
+
 <script>
 let idade = 0;
 let felicidade = 50;
@@ -29,11 +165,11 @@ function envelhecer() {
 atualizarBarras();
 
 function mostrar(abaId) {
-  document.querySelectorAll('.aba').forEach(aba => aba.style.display = 'none');
-  document.getElementById(abaId).style.display = 'block';
+  document.querySelectorAll('.aba').forEach(aba => aba.style.display='none');
+  document.getElementById(abaId).style.display='block';
 }
 
-// 🔹 Redes sociais automáticas
+// Redes sociais simuladas
 const perfisSimulados = [
   {nome: "AnaLima", avatar: "#f54242"},
   {nome: "LeoRibeiro", avatar: "#42f5b3"},
@@ -58,7 +194,6 @@ function criarPost(feed, texto, file=null) {
   } else {
     atualizarPost(post, texto, perfil, imgHTML);
   }
-
   feed.prepend(post);
 }
 
@@ -97,8 +232,7 @@ function postarInsta() {
 
 function curtir(btn) {
   const span = btn.nextElementSibling;
-  let count = parseInt(span.innerText);
-  span.innerText = count+1;
+  span.innerText = parseInt(span.innerText)+1;
 }
 
 function comentar(btn) {
@@ -110,7 +244,7 @@ function comentar(btn) {
   btn.parentElement.parentElement.appendChild(p);
 }
 
-// 🔹 Postagens automáticas
+// Posts automáticos
 const tweetsAutom = [
   "Hoje fui gravar meu novo single! 🎶 #musica",
   "Que dia incrível! #vida #fama",
@@ -132,4 +266,7 @@ function postsAutomaticos() {
 
 // Posta automaticamente a cada 5 segundos
 setInterval(postsAutomaticos, 5000);
-                                        </script>
+</script>
+
+</body>
+</html>
