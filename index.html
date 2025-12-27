@@ -1,212 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<title>Meu Jogo de Simulação</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  /* 🔹 Fundo do jogo */
-  body {
-    background: url('https://i.imgur.com/3lV2HfM.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-  }
-
-  h1, h2, h3 {
-    text-align: center;
-  }
-
-  .menu {
-    display: grid;
-    gap: 12px;
-    margin-top: 20px;
-  }
-
-  button {
-    padding: 12px 20px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: none;
-    background: #ff2f92;
-    color: white;
-    cursor: pointer;
-  }
-
-  .aba {
-    display: none;
-    margin-top: 20px;
-    text-align: center;
-    background: rgba(0,0,0,0.7); /* fundo semi-transparente para legibilidade */
-    padding: 20px;
-    border-radius: 15px;
-  }
-
-  .barra-container {
-    background: #222;
-    border-radius: 10px;
-    width: 80%;
-    margin: 10px auto;
-    height: 20px;
-    overflow: hidden;
-  }
-
-  .barra {
-    height: 100%;
-    width: 0%;
-    border-radius: 10px;
-    text-align: right;
-    padding-right: 5px;
-    color: white;
-    line-height: 20px;
-  }
-
-  .felicidade { background: #ffcc00; }
-  .fama       { background: #ff2f92; }
-  .saude      { background: #00ccff; }
-  .respeito   { background: #00ff88; }
-
-  /* 🔹 Redes sociais e feed */
-  .post {
-    background: rgba(20,20,20,0.9);
-    padding: 10px;
-    margin: 10px auto;
-    border-radius: 10px;
-    max-width: 400px;
-    text-align: left;
-    word-wrap: break-word;
-  }
-
-  .post-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 5px;
-  }
-
-  .avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    background: #555;
-  }
-
-  .acoes {
-    display: flex;
-    gap: 10px;
-    margin-top: 5px;
-    align-items: center;
-  }
-
-  .acoes button {
-    background: #ff2f92;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-
-  textarea {
-    width: 90%;
-    height: 50px;
-    margin: 10px auto;
-    display: block;
-    border-radius: 10px;
-    padding: 5px;
-  }
-
-  input[type="file"] {
-    margin-top: 5px;
-  }
-
-  #feedTwitter, #feedInsta {
-    max-height: 400px;
-    overflow-y: auto;
-    margin-top: 10px;
-  }
-
-  .comentario {
-    margin-left: 40px;
-    font-size: 14px;
-    color: #ccc;
-  }
-
-  .hashtag {
-    color: #00ccff;
-  }
-</style>
-</head>
-<body>
-
-<h1>🎮 Meu Jogo de Simulação</h1>
-
-<div class="menu">
-  <button onclick="mostrar('status')">👤 Vida Pessoal</button>
-  <button onclick="mostrar('redes')">📱 Redes Sociais</button>
-  <button onclick="mostrar('charts')">📊 Charts</button>
-  <button onclick="mostrar('musical')">🎵 Carreira Musical</button>
-  <button onclick="mostrar('atuacao')">🎬 Atuação</button>
-</div>
-
-<div class="aba" id="status">
-  <h2>Vida do Personagem</h2>
-  <p>Idade: <span id="idade">0</span></p>
-
-  <div class="barra-container">
-    Felicidade: <div class="barra felicidade" id="felicidade">50%</div>
-  </div>
-  <div class="barra-container">
-    Fama: <div class="barra fama" id="fama">0%</div>
-  </div>
-  <div class="barra-container">
-    Saúde: <div class="barra saude" id="saude">50%</div>
-  </div>
-  <div class="barra-container">
-    Respeito: <div class="barra respeito" id="respeito">10%</div>
-  </div>
-
-  <button onclick="envelhecer()">Avançar Ano</button>
-</div>
-
-<div class="aba" id="redes">
-  <h2>Redes Sociais</h2>
-  
-  <h3>Twitter</h3>
-  <textarea id="tweetInput" placeholder="Escreva seu tweet..."></textarea>
-  <input type="file" id="tweetImg">
-  <button onclick="postarTweet()">Publicar</button>
-  <div id="feedTwitter"></div>
-
-  <h3>Instagram</h3>
-  <textarea id="instaInput" placeholder="Escreva sua postagem..."></textarea>
-  <input type="file" id="instaImg">
-  <button onclick="postarInsta()">Postar</button>
-  <div id="feedInsta"></div>
-</div>
-
-<div class="aba" id="charts">
-  <h2>Charts</h2>
-  <ul>
-    <li>Top 100 Álbuns</li>
-    <li>Top 100 Músicas</li>
-    <li>Top 100 Artistas</li>
-    <li>Top 100 Global</li>
-  </ul>
-</div>
-
-<div class="aba" id="musical">
-  <h2>Carreira Musical</h2>
-  <p>Em breve você poderá criar músicas e lançar álbuns!</p>
-</div>
-
-<div class="aba" id="atuacao">
-  <h2>Atuação</h2>
-  <p>Em breve você poderá participar de filmes e séries!</p>
-</div>
-
 <script>
-let idade = 0;
+let idade = 10;
 let felicidade = 50;
 let fama = 0;
 let saude = 50;
@@ -240,7 +33,7 @@ function mostrar(abaId) {
   document.getElementById(abaId).style.display = 'block';
 }
 
-// Redes sociais
+// 🔹 Redes sociais automáticas
 const perfisSimulados = [
   {nome: "AnaLima", avatar: "#f54242"},
   {nome: "LeoRibeiro", avatar: "#42f5b3"},
@@ -248,12 +41,12 @@ const perfisSimulados = [
   {nome: "Mari_S", avatar: "#f5e642"}
 ];
 
-function criarPost(feed, texto, file) {
+function criarPost(feed, texto, file=null) {
   const post = document.createElement("div");
   post.className = "post";
-
+  
   const perfil = perfisSimulados[Math.floor(Math.random()*perfisSimulados.length)];
-
+  
   let imgHTML = "";
   if(file){
     const reader = new FileReader();
@@ -316,6 +109,27 @@ function comentar(btn) {
   p.textContent = comentario;
   btn.parentElement.parentElement.appendChild(p);
 }
+
+// 🔹 Postagens automáticas
+const tweetsAutom = [
+  "Hoje fui gravar meu novo single! 🎶 #musica",
+  "Que dia incrível! #vida #fama",
+  "Ensaiando muito para meu próximo show!",
+  "Recebendo mensagens dos fãs, amo vocês! 💖 #fanlove"
+];
+
+const instaAutom = [
+  "Foto do estúdio de gravação 🎤 #musica",
+  "Making of do meu novo clipe 🎬 #ator #cantor",
+  "Momento relax 🍹 #vida",
+  "Treino intenso de dança 💃 #preparacao"
+];
+
+function postsAutomaticos() {
+  criarPost(document.getElementById("feedTwitter"), tweetsAutom[Math.floor(Math.random()*tweetsAutom.length)]);
+  criarPost(document.getElementById("feedInsta"), instaAutom[Math.floor(Math.random()*instaAutom.length)]);
+}
+
+// Posta automaticamente a cada 5 segundos
+setInterval(postsAutomaticos, 5000);
 </script>
-</body>
-</html>
