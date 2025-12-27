@@ -5,8 +5,10 @@
   <title>Meu Jogo de Simulação</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    /* 🔹 Fundo e corpo */
     body {
-      background: #0f0f14;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
       color: white;
       font-family: Arial, sans-serif;
       margin: 0;
@@ -15,28 +17,44 @@
 
     h1, h2 {
       text-align: center;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
     }
 
+    /* 🔹 Menu de botões */
     .menu {
       display: grid;
       gap: 12px;
       margin-top: 30px;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 
     button {
-      padding: 15px;
+      padding: 15px 20px;
       font-size: 16px;
-      border-radius: 10px;
+      border-radius: 15px;
       border: none;
-      background: #ff2f92;
+      background: linear-gradient(45deg, #ff2f92, #ff65b2);
       color: white;
       cursor: pointer;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
     }
 
     /* 🔹 Status do personagem */
     .status {
       margin-top: 40px;
       text-align: center;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 
     /* 🔹 Barras de status */
@@ -57,12 +75,13 @@
       padding-right: 5px;
       color: white;
       line-height: 20px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
     }
 
-    .felicidade { background: #ffcc00; }
-    .fama       { background: #ff2f92; }
-    .saude      { background: #00ccff; }
-    .respeito   { background: #00ff88; }
+    .felicidade { background: linear-gradient(to right, #ffec00, #ffcc00); }
+    .fama       { background: linear-gradient(to right, #ff2f92, #ff65b2); }
+    .saude      { background: linear-gradient(to right, #00ccff, #66e0ff); }
+    .respeito   { background: linear-gradient(to right, #00ff88, #33ffaa); }
 
   </style>
 </head>
@@ -124,10 +143,10 @@ function envelhecer() {
   idade++;
 
   // mudanças aleatórias simples
-  felicidade += Math.floor(Math.random() * 5 - 2); // -2 a +2
-  saude += Math.floor(Math.random() * 3 - 1);      // -1 a +1
-  fama += Math.floor(Math.random() * 4);           // 0 a +3
-  respeito += Math.floor(Math.random() * 3);       // 0 a +2
+  felicidade += Math.floor(Math.random() * 5 - 2);
+  saude += Math.floor(Math.random() * 3 - 1);
+  fama += Math.floor(Math.random() * 4);
+  respeito += Math.floor(Math.random() * 3);
 
   // limites de 0 a 100
   felicidade = Math.max(0, Math.min(100, felicidade));
