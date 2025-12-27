@@ -5,7 +5,6 @@
   <title>Meu Jogo de Simulação</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* 🔹 Fundo e corpo */
     body {
       background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
       background-size: cover;
@@ -20,7 +19,6 @@
       text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
     }
 
-    /* 🔹 Menu de botões */
     .menu {
       display: grid;
       gap: 12px;
@@ -47,14 +45,14 @@
       transform: scale(1.05);
     }
 
-    /* 🔹 Status do personagem */
-    .status {
+    .status, .charts, .redes {
       margin-top: 40px;
       text-align: center;
       background: rgba(0,0,0,0.5);
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      display: none;
     }
 
     /* 🔹 Barras de status */
@@ -83,6 +81,17 @@
     .saude      { background: linear-gradient(to right, #00ccff, #66e0ff); }
     .respeito   { background: linear-gradient(to right, #00ff88, #33ffaa); }
 
+    /* 🔹 Lista interna */
+    ul {
+      text-align: left;
+      max-width: 300px;
+      margin: 10px auto;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 5px 0;
+    }
   </style>
 </head>
 <body>
@@ -90,13 +99,12 @@
 <h1>🎮 Meu Jogo de Simulação</h1>
 
 <div class="menu">
-  <button>🎵 Carreira Musical</button>
-  <button>🎬 Atuação</button>
-  <button>👤 Vida Pessoal</button>
-  <button>📱 Redes Sociais</button>
-  <button>📊 Charts</button>
+  <button onclick="mostrar('status')">👤 Vida Pessoal</button>
+  <button onclick="mostrar('redes')">📱 Redes Sociais</button>
+  <button onclick="mostrar('charts')">📊 Charts</button>
 </div>
 
+<!-- 🔹 Status do personagem -->
 <div class="status">
   <h2>Vida do Personagem</h2>
   <p>Idade: <span id="idade">0</span></p>
@@ -115,6 +123,29 @@
   </div>
 
   <button onclick="envelhecer()">Avançar Ano</button>
+</div>
+
+<!-- 🔹 Redes Sociais -->
+<div class="redes">
+  <h2>Redes Sociais</h2>
+  <ul>
+    <li>Twitter: Seguindo 10 pessoas</li>
+    <li>Instagram: 200 seguidores</li>
+    <li>Spotify: 0 músicas lançadas</li>
+    <li>Wikipedia: Página do personagem</li>
+    <li>App de Namoro: Disponível aos 18 anos</li>
+  </ul>
+</div>
+
+<!-- 🔹 Charts -->
+<div class="charts">
+  <h2>Charts</h2>
+  <ul>
+    <li>Top 100 Álbuns</li>
+    <li>Top 100 Músicas</li>
+    <li>Top 100 Artistas</li>
+    <li>Top 100 Global</li>
+  </ul>
 </div>
 
 <script>
@@ -157,8 +188,16 @@ function envelhecer() {
   atualizarBarras();
 }
 
-// inicializa barras
+// Inicializa barras
 atualizarBarras();
+
+// Função para mostrar/ocultar abas
+function mostrar(aba) {
+  const abas = ['status', 'redes', 'charts'];
+  abas.forEach(id => {
+    document.querySelector('.' + id).style.display = (id === aba) ? 'block' : 'none';
+  });
+}
 </script>
 
 </body>
