@@ -5,8 +5,10 @@
 <title>Meu Jogo de Simulação</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+  /* 🔹 Fundo do jogo */
   body {
-    background: #0f0f14;
+    background: url('https://i.imgur.com/3lV2HfM.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: white;
     font-family: Arial, sans-serif;
     margin: 0;
@@ -37,6 +39,9 @@
     display: none;
     margin-top: 20px;
     text-align: center;
+    background: rgba(0,0,0,0.7); /* fundo semi-transparente para legibilidade */
+    padding: 20px;
+    border-radius: 15px;
   }
 
   .barra-container {
@@ -63,8 +68,9 @@
   .saude      { background: #00ccff; }
   .respeito   { background: #00ff88; }
 
+  /* 🔹 Redes sociais e feed */
   .post {
-    background: #111;
+    background: rgba(20,20,20,0.9);
     padding: 10px;
     margin: 10px auto;
     border-radius: 10px;
@@ -234,7 +240,7 @@ function mostrar(abaId) {
   document.getElementById(abaId).style.display = 'block';
 }
 
-// Funções de redes sociais
+// Redes sociais
 const perfisSimulados = [
   {nome: "AnaLima", avatar: "#f54242"},
   {nome: "LeoRibeiro", avatar: "#42f5b3"},
@@ -252,7 +258,7 @@ function criarPost(feed, texto, file) {
   if(file){
     const reader = new FileReader();
     reader.onload = function(e){
-      imgHTML = `<img src="${e.target.result}">`;
+      imgHTML = `<img src="${e.target.result}" style="max-width:100%; border-radius:10px;">`;
       atualizarPost(post, texto, perfil, imgHTML);
     };
     reader.readAsDataURL(file);
