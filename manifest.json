@@ -1,0 +1,9 @@
+{
+  "name": "Meu Jogo de Simulação",
+  "short_name": "Meu Jogo",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f0f14",
+  "theme_color": "#ff2f92",
+  "orientation": "portrait"
+}
