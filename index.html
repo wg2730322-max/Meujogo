@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -24,7 +25,7 @@
   }
 
   button {
-    padding: 15px 20px;
+    padding: 12px 20px;
     font-size: 16px;
     border-radius: 10px;
     border: none;
@@ -70,12 +71,20 @@
     border-radius: 10px;
     max-width: 400px;
     text-align: left;
+    word-wrap: break-word;
+  }
+
+  .post img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 5px;
   }
 
   .acoes {
     display: flex;
     gap: 10px;
     margin-top: 5px;
+    align-items: center;
   }
 
   .acoes button {
@@ -92,6 +101,16 @@
     display: block;
     border-radius: 10px;
     padding: 5px;
+  }
+
+  input[type="file"] {
+    margin-top: 5px;
+  }
+
+  #feedTwitter, #feedInsta {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 10px;
   }
 </style>
 </head>
@@ -130,13 +149,16 @@
 
 <div class="aba" id="redes">
   <h2>Redes Sociais</h2>
+  
   <h3>Twitter</h3>
   <textarea id="tweetInput" placeholder="Escreva seu tweet..."></textarea>
+  <input type="file" id="tweetImg">
   <button onclick="postarTweet()">Publicar</button>
   <div id="feedTwitter"></div>
 
   <h3>Instagram</h3>
   <textarea id="instaInput" placeholder="Escreva sua postagem..."></textarea>
+  <input type="file" id="instaImg">
   <button onclick="postarInsta()">Postar</button>
   <div id="feedInsta"></div>
 </div>
@@ -196,37 +218,70 @@ function mostrar(abaId) {
   document.getElementById(abaId).style.display = 'block';
 }
 
-// Twitter/Instagram
+// Funções de redes sociais
 function postarTweet() {
   const input = document.getElementById("tweetInput");
+  const imgInput = document.getElementById("tweetImg");
   const feed = document.getElementById("feedTwitter");
-  if(!input.value.trim()) return;
+  if(!input.value.trim() && imgInput.files.length === 0) return;
+
   const post = document.createElement("div");
   post.className = "post";
-  post.innerHTML = `<p>${input.value}</p>
+  let imgHTML = "";
+  if(imgInput.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      imgHTML = `<img src="${e.target.result}">`;
+      post.innerHTML = `<p>${input.value}</p>${imgHTML}
+        <div class="acoes">
+          <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
+          <button onclick="comentar(this)">Comentar</button>
+        </div>`;
+    };
+    reader.readAsDataURL(imgInput.files[0]);
+  }
+  post.innerHTML = `<p>${input.value}</p>${imgHTML}
     <div class="acoes">
       <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
       <button onclick="comentar(this)">Comentar</button>
     </div>`;
   feed.prepend(post);
   input.value = "";
+  imgInput.value = "";
 }
 
 function postarInsta() {
   const input = document.getElementById("instaInput");
+  const imgInput = document.getElementById("instaImg");
   const feed = document.getElementById("feedInsta");
-  if(!input.value.trim()) return;
+  if(!input.value.trim() && imgInput.files.length === 0) return;
+
   const post = document.createElement("div");
   post.className = "post";
-  post.innerHTML = `<p>${input.value}</p>
+  let imgHTML = "";
+  if(imgInput.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      imgHTML = `<img src="${e.target.result}">`;
+      post.innerHTML = `<p>${input.value}</p>${imgHTML}
+        <div class="acoes">
+          <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
+          <button onclick="comentar(this)">Comentar</button>
+        </div>`;
+    };
+    reader.readAsDataURL(imgInput.files[0]);
+  }
+  post.innerHTML = `<p>${input.value}</p>${imgHTML}
     <div class="acoes">
       <button onclick="curtir(this)">Curtir</button> <span>0</span> curtidas
       <button onclick="comentar(this)">Comentar</button>
     </div>`;
   feed.prepend(post);
   input.value = "";
+  imgInput.value = "";
 }
 
+// Curtidas e comentários
 function curtir(btn) {
   const span = btn.nextElementSibling;
   let count = parseInt(span.innerText);
