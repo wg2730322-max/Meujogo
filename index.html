@@ -4,75 +4,89 @@
   <meta charset="UTF-8">
   <title>Meu Jogo de Simulação</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center fixed;
-      background-size: cover;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #0f0f14, #1a1a27);
       color: white;
     }
     h1, h2 {
       text-align: center;
+      text-shadow: 1px 1px 5px #000;
     }
     .menu {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
       margin: 20px 0;
     }
     .menu button {
-      padding: 10px 20px;
+      padding: 12px 25px;
       font-size: 16px;
-      border-radius: 8px;
+      border-radius: 12px;
       border: none;
-      background: #ff2f92;
+      background: linear-gradient(45deg,#ff2f92,#ff66b3);
       color: white;
       cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .menu button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(255,47,146,0.5);
     }
     .aba {
       display: none;
-      background: rgba(0,0,0,0.7);
+      background: rgba(20,20,30,0.9);
       margin: 20px auto;
       padding: 20px;
-      border-radius: 10px;
-      max-width: 600px;
+      border-radius: 15px;
+      max-width: 650px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      transition: all 0.5s ease;
     }
+
+    /* Status do personagem */
     .status {
       text-align: center;
     }
     .barra-container {
       background: #222;
-      border-radius: 10px;
+      border-radius: 15px;
       width: 80%;
-      margin: 10px auto;
-      height: 20px;
+      margin: 12px auto;
+      height: 25px;
       overflow: hidden;
+      position: relative;
     }
     .barra {
       height: 100%;
       width: 0%;
-      border-radius: 10px;
+      border-radius: 15px;
       text-align: right;
-      padding-right: 5px;
+      padding-right: 8px;
       color: white;
-      line-height: 20px;
+      line-height: 25px;
+      transition: width 0.5s ease;
     }
-    .felicidade { background: #ffcc00; }
-    .fama       { background: #ff2f92; }
-    .saude      { background: #00ccff; }
-    .respeito   { background: #00ff88; }
+    .felicidade { background: linear-gradient(90deg,#ffeb3b,#ffc107);}
+    .fama { background: linear-gradient(90deg,#ff2f92,#ff66b3);}
+    .saude { background: linear-gradient(90deg,#00c6ff,#0072ff);}
+    .respeito { background: linear-gradient(90deg,#00ff88,#00cc66);}
 
     /* Redes sociais */
     .feed { max-height: 300px; overflow-y: auto; margin-top: 10px; }
-    .post { background: #333; padding: 10px; margin-bottom: 10px; border-radius: 8px; }
-    .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
-    .avatar { width: 30px; height: 30px; border-radius: 50%; display: inline-block; }
-    .acoes button { margin-right: 5px; }
-    .comentario { font-size: 14px; margin-left: 20px; color: #ddd; }
-    input, file { margin-top: 5px; }
+    .post { background: #333; padding: 12px; margin-bottom: 12px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);}
+    .post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+    .avatar { width: 35px; height: 35px; border-radius: 50%; display: inline-block; }
+    .acoes button { margin-right: 8px; background:#555; border:none; padding:5px 10px; border-radius:6px; cursor:pointer; color:white; }
+    .acoes button:hover { background:#777; }
+    .comentario { font-size: 14px; margin-left: 20px; color: #ddd; margin-top:4px; }
+    input, file { margin-top: 5px; padding:6px; border-radius:6px; border:none; }
+
   </style>
 </head>
 <body>
@@ -92,10 +106,10 @@
   <div class="status">
     <h2>Vida do Personagem</h2>
     <p>Idade: <span id="idade">0</span></p>
-    <div class="barra-container">Felicidade: <div class="barra felicidade" id="felicidade">50%</div></div>
-    <div class="barra-container">Fama: <div class="barra fama" id="fama">0%</div></div>
-    <div class="barra-container">Saúde: <div class="barra saude" id="saude">50%</div></div>
-    <div class="barra-container">Respeito: <div class="barra respeito" id="respeito">10%</div></div>
+    <div class="barra-container">😊 Felicidade: <div class="barra felicidade" id="felicidade">50%</div></div>
+    <div class="barra-container">⭐ Fama: <div class="barra fama" id="fama">0%</div></div>
+    <div class="barra-container">❤️ Saúde: <div class="barra saude" id="saude">50%</div></div>
+    <div class="barra-container">🏆 Respeito: <div class="barra respeito" id="respeito">10%</div></div>
     <button onclick="envelhecer()">Avançar Ano</button>
   </div>
 </div>
@@ -264,8 +278,8 @@ function postsAutomaticos() {
   criarPost(document.getElementById("feedInsta"), instaAutom[Math.floor(Math.random()*instaAutom.length)]);
 }
 
-// Posta automaticamente a cada 5 segundos
 setInterval(postsAutomaticos, 5000);
+
 </script>
 
 </body>
