@@ -28,6 +28,70 @@
       background: #ff2f92;
       color: white;
     }
+  </style><style>
+  body {
+    background: #0f0f14;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  .menu {
+    display: grid;
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  button {
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background: #ff2f92;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* 🔹 Status do personagem */
+  .status {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  /* 🔹 Barras de status (felicidade, fama, etc.) */
+  .barra-container {
+    background: #222;
+    border-radius: 10px;
+    width: 80%;
+    margin: 10px auto;
+    height: 20px;
+    overflow: hidden;
+  }
+
+  .barra {
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    text-align: right;
+    padding-right: 5px;
+    color: white;
+    line-height: 20px;
+  }
+
+  .felicidade { background: #ffcc00; }
+  .fama       { background: #ff2f92; }
+  .saude      { background: #00ccff; }
+  .respeito   { background: #00ff88; }
+
   </style>
 </head>
 <body>
@@ -40,12 +104,19 @@
   <button>👤 Vida Pessoal</button>
   <button>📱 Redes Sociais</button>
   <button>📊 Charts</button>
-</div>
+</div> class="status">
+  <h2>Vida do Personagem</h2>
+<p>Idade: <span id="idade">0</span></p>
+
+<button onclick="envelhecer()">Avançar Ano</button>
+  
 <script>
-  document.addEventListener("click", function () {
-    console.log("Clique detectado");
-    alert("O jogo está funcionando 🎮");
-  });
+  let idade = 0;
+
+  function envelhecer() {
+    idade++;
+    document.getElementById("idade").innerText = idade;
+  }
 </script>
 </body>
 </html>
