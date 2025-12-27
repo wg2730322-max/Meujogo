@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Meu Jogo</title>
+  <title>Meu Jogo de Simulação</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -12,14 +12,17 @@
       margin: 0;
       padding: 20px;
     }
-    h1 {
+
+    h1, h2 {
       text-align: center;
     }
+
     .menu {
       display: grid;
       gap: 12px;
       margin-top: 30px;
     }
+
     button {
       padding: 15px;
       font-size: 16px;
@@ -27,70 +30,39 @@
       border: none;
       background: #ff2f92;
       color: white;
+      cursor: pointer;
     }
-  </style><style>
-  body {
-    background: #0f0f14;
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-  }
 
-  h1 {
-    text-align: center;
-  }
+    /* 🔹 Status do personagem */
+    .status {
+      margin-top: 40px;
+      text-align: center;
+    }
 
-  h2 {
-    text-align: center;
-  }
+    /* 🔹 Barras de status */
+    .barra-container {
+      background: #222;
+      border-radius: 10px;
+      width: 80%;
+      margin: 10px auto;
+      height: 20px;
+      overflow: hidden;
+    }
 
-  .menu {
-    display: grid;
-    gap: 12px;
-    margin-top: 30px;
-  }
+    .barra {
+      height: 100%;
+      width: 0%;
+      border-radius: 10px;
+      text-align: right;
+      padding-right: 5px;
+      color: white;
+      line-height: 20px;
+    }
 
-  button {
-    padding: 15px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: none;
-    background: #ff2f92;
-    color: white;
-    cursor: pointer;
-  }
-
-  /* 🔹 Status do personagem */
-  .status {
-    margin-top: 40px;
-    text-align: center;
-  }
-
-  /* 🔹 Barras de status (felicidade, fama, etc.) */
-  .barra-container {
-    background: #222;
-    border-radius: 10px;
-    width: 80%;
-    margin: 10px auto;
-    height: 20px;
-    overflow: hidden;
-  }
-
-  .barra {
-    height: 100%;
-    width: 0%;
-    border-radius: 10px;
-    text-align: right;
-    padding-right: 5px;
-    color: white;
-    line-height: 20px;
-  }
-
-  .felicidade { background: #ffcc00; }
-  .fama       { background: #ff2f92; }
-  .saude      { background: #00ccff; }
-  .respeito   { background: #00ff88; }
+    .felicidade { background: #ffcc00; }
+    .fama       { background: #ff2f92; }
+    .saude      { background: #00ccff; }
+    .respeito   { background: #00ff88; }
 
   </style>
 </head>
@@ -104,19 +76,71 @@
   <button>👤 Vida Pessoal</button>
   <button>📱 Redes Sociais</button>
   <button>📊 Charts</button>
-</div> class="status">
+</div>
+
+<div class="status">
   <h2>Vida do Personagem</h2>
-<p>Idade: <span id="idade">0</span></p>
+  <p>Idade: <span id="idade">0</span></p>
 
-<button onclick="envelhecer()">Avançar Ano</button>
-  
+  <div class="barra-container">
+    Felicidade: <div class="barra felicidade" id="felicidade">50%</div>
+  </div>
+  <div class="barra-container">
+    Fama: <div class="barra fama" id="fama">0%</div>
+  </div>
+  <div class="barra-container">
+    Saúde: <div class="barra saude" id="saude">50%</div>
+  </div>
+  <div class="barra-container">
+    Respeito: <div class="barra respeito" id="respeito">10%</div>
+  </div>
+
+  <button onclick="envelhecer()">Avançar Ano</button>
+</div>
+
 <script>
-  let idade = 0;
+let idade = 0;
+let felicidade = 50;
+let fama = 0;
+let saude = 50;
+let respeito = 10;
 
-  function envelhecer() {
-    idade++;
-    document.getElementById("idade").innerText = idade;
-  }
+function atualizarBarras() {
+  document.getElementById("idade").innerText = idade;
+  document.getElementById("felicidade").style.width = felicidade + "%";
+  document.getElementById("felicidade").innerText = felicidade + "%";
+
+  document.getElementById("fama").style.width = fama + "%";
+  document.getElementById("fama").innerText = fama + "%";
+
+  document.getElementById("saude").style.width = saude + "%";
+  document.getElementById("saude").innerText = saude + "%";
+
+  document.getElementById("respeito").style.width = respeito + "%";
+  document.getElementById("respeito").innerText = respeito + "%";
+}
+
+function envelhecer() {
+  idade++;
+
+  // mudanças aleatórias simples
+  felicidade += Math.floor(Math.random() * 5 - 2); // -2 a +2
+  saude += Math.floor(Math.random() * 3 - 1);      // -1 a +1
+  fama += Math.floor(Math.random() * 4);           // 0 a +3
+  respeito += Math.floor(Math.random() * 3);       // 0 a +2
+
+  // limites de 0 a 100
+  felicidade = Math.max(0, Math.min(100, felicidade));
+  saude = Math.max(0, Math.min(100, saude));
+  fama = Math.max(0, Math.min(100, fama));
+  respeito = Math.max(0, Math.min(100, respeito));
+
+  atualizarBarras();
+}
+
+// inicializa barras
+atualizarBarras();
 </script>
+
 </body>
 </html>
